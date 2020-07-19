@@ -12,11 +12,11 @@
 <script>
 export default {
   async asyncData({ $axios, error }) {
-    const accountsUrl = encodeURI('/dev/accounts')
+    const accountsUrl = encodeURI('/accounts')
     let accounts = []
     await $axios.$get(accountsUrl).then(result => {
       console.log(result)
-      accounts = result.data
+      accounts = result.accounts
     }).catch(e => {
       console.log(e);
       error({ statusCode: 404, message: "Page not found" });

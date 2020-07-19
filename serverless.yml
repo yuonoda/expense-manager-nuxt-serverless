@@ -23,6 +23,13 @@ functions:
     events:
       - http: ANY /
       - http: ANY /{proxy+}
+    vpc:
+      securityGroupIds:
+        - sg-055e7ceaa59dbe625
+        - sg-055e7ceaa59dbe625
+      subnetIds:
+        - subnet-c2b39e99
+        - subnet-e05ba8a8
 
 # Add those plugins to our service
 plugins:
