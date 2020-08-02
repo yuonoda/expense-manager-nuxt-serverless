@@ -13,9 +13,11 @@ provider:
     SSR_API_PROTOCOL: ${file(./.env.${opt:stage, self:provider.stage, 'dev'}.json):SSR_API_PROTOCOL}
     SSR_API_DOMAIN:  ${file(./.env.${opt:stage, self:provider.stage, 'dev'}.json):SSR_API_DOMAIN}
     SSR_API_PORT:  ${file(./.env.${opt:stage, self:provider.stage, 'dev'}.json):SSR_API_PORT}
+    SSR_API_BASE_PATH:  ${file(./.env.${opt:stage, self:provider.stage, 'dev'}.json):SSR_API_BASE_PATH}
     CSR_API_PROTOCOL:  ${file(./.env.${opt:stage, self:provider.stage, 'dev'}.json):CSR_API_PROTOCOL}
     CSR_API_DOMAIN:  ${file(./.env.${opt:stage, self:provider.stage, 'dev'}.json):CSR_API_DOMAIN}
     CSR_API_PORT:  ${file(./.env.${opt:stage, self:provider.stage, 'dev'}.json):CSR_API_PORT}
+    CSR_API_BASE_PATH:  ${file(./.env.${opt:stage, self:provider.stage, 'dev'}.json):CSR_API_BASE_PATH}
 
 functions:
   app:
@@ -50,8 +52,8 @@ custom:
     stage: prod
     createRoute53Record: true
   serverless-offline:
-    httpPort: 3000
-    lambdaPort: 3001
+    httpPort: 8000
+    lambdaPort: 8001
 #package:
 #  exclude:
 #    - .dynamodb/**
