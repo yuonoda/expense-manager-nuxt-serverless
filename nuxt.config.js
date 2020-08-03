@@ -1,7 +1,6 @@
 require("dotenv").config();
 const colors = require('vuetify/es5/util/colors').default
 
-console.debug(process.env)
 module.exports = {
   telemetry: false,
   mode: 'universal',
@@ -84,7 +83,6 @@ module.exports = {
       process.env.SSR_API_DOMAIN +
       ":" +
       process.env.SSR_API_PORT +
-      "/" +
       process.env.SSR_API_BASE_PATH,
     browserBaseURL:
       process.env.CSR_API_PROTOCOL +
@@ -92,7 +90,6 @@ module.exports = {
       process.env.CSR_API_DOMAIN +
       ":" +
       process.env.CSR_API_PORT +
-      "/" +
       process.env.CSR_API_BASE_PATH,
   },
 }

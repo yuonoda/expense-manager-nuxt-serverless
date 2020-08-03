@@ -18,14 +18,18 @@ export default {
       console.log(result)
       accounts = result.accounts
     }).catch(e => {
-      console.log(e);
+      console.error(e);
       error({ statusCode: 404, message: "Page not found" });
     })
 
     return {accounts}
   },
+  // created() {
+  //   this.fetchAccounts();
+  // },
   data() {
     return {
+      accounts: [],
       headers: [
         {
           text: 'Account Name',
@@ -39,6 +43,19 @@ export default {
         },
       ],
     }
+  },
+  methods: {
+    // fetchAccounts(){
+    //   console.log('fetchAccounts')
+    //   const accountsUrl = encodeURI('/accounts')
+    //   this.$axios.$get(accountsUrl).then(result => {
+    //     console.log(result)
+    //     this.accounts = result.accounts
+    //   }).catch(e => {
+    //     console.error(e);
+    //     error({ statusCode: 404, message: "Page not found" });
+    //   })
+    // }
   }
 }
 </script>
