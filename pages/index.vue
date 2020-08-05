@@ -12,6 +12,8 @@
 <script>
 export default {
   async asyncData({ $axios, error }) {
+    console.debug('asyncData')
+    console.debug($axios)
     const accountsUrl = encodeURI('/accounts')
     let accounts = []
     await $axios.$get(accountsUrl).then(result => {
@@ -44,19 +46,19 @@ export default {
       ],
     }
   },
-  methods: {
-    // fetchAccounts(){
-    //   console.log('fetchAccounts')
-    //   const accountsUrl = encodeURI('/accounts')
-    //   this.$axios.$get(accountsUrl).then(result => {
-    //     console.log(result)
-    //     this.accounts = result.accounts
-    //   }).catch(e => {
-    //     console.error(e);
-    //     error({ statusCode: 404, message: "Page not found" });
-    //   })
-    // }
-  }
+  // methods: {
+  //   fetchAccounts(){
+  //     console.log('fetchAccounts')
+  //     const accountsUrl = encodeURI('/accounts')
+  //     this.$axios.$get(accountsUrl).then(result => {
+  //       console.log(result)
+  //       this.accounts = result.accounts
+  //     }).catch(e => {
+  //       console.error(e);
+  //       // error({ statusCode: 404, message: "Page not found" });
+  //     })
+  //   }
+  // }
 }
 </script>
 <style lang="scss">
