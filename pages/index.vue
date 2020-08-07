@@ -13,11 +13,9 @@
 export default {
   async asyncData({ $axios, error }) {
     console.debug('asyncData')
-    console.debug($axios)
     const accountsUrl = encodeURI('/accounts')
     let accounts = []
     await $axios.$get(accountsUrl).then(result => {
-      console.log(result)
       accounts = result.accounts
     }).catch(e => {
       console.error(e);
