@@ -1,20 +1,17 @@
 <template>
   <v-bottom-navigation v-model="bottomNav">
-    <v-btn value="recent">
+    <v-btn value="recent" to="/">
       <span>Summery</span>
-      <nuxt-link class="link" to="/">
         <v-icon>mdi-home-variant</v-icon>
-      </nuxt-link>
     </v-btn>
-    <v-btn value="favorites">
+    <v-btn value="favorites" to="/records">
       <span>Records</span>
-      <nuxt-link class="link" to="/records">
-        <v-icon>mdi-table-of-contents</v-icon>
-      </nuxt-link>
+      <v-icon>mdi-table-of-contents</v-icon>
     </v-btn>
   </v-bottom-navigation>
 </template>
 <script>
+  // TODO アイコン画像のみクリッカブルになっている
   export default {
     data() {
       return {

@@ -1,9 +1,8 @@
 <template>
   <v-layout class="home">
-    records
     <v-data-table
       :headers="headers"
-      :items="accounts"
+      :items="transactions"
       :items-per-page="5"
       class="elevation-1 home__table"
       hide-default-footer
@@ -12,19 +11,23 @@
 </template>
 <script>
 export default {
+  async asyncData({ $axios, error, store }) {
+    const transactions = store.getters['transactions/getTransactions']
+    return { transactions }
+  },
   data() {
     return {
       accounts: [],
       headers: [
         {
-          text: 'Account Name',
+          text: 'Transaction Nmae',
           align: 'end',
           sortable: false,
-          value: 'account_name',
+          value: 'transaction_name',
         },
-        { text: 'Balance',
+        { text: 'Amount',
           sortable: false,
-          value: 'account_balance'
+          value: 'transaction_amount'
         },
       ],
     }

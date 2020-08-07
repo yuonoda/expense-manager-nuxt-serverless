@@ -12,7 +12,6 @@
 <script>
 export default {
   async asyncData({ $axios, error, store }) {
-    console.debug('asyncData')
     const accounts = store.getters['accounts/getAccounts']
     return { accounts }
   },
