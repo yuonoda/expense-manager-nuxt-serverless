@@ -12,12 +12,6 @@
         <v-icon>mdi-table-of-contents</v-icon>
       </nuxt-link>
     </v-btn>
-    <v-btn value="nearby">
-      <span>Stats</span>
-      <nuxt-link class="link" to="/stats">
-        <v-icon>mdi-elevation-rise</v-icon>
-      </nuxt-link>
-    </v-btn>
   </v-bottom-navigation>
 </template>
 <script>
