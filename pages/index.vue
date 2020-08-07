@@ -11,25 +11,13 @@
 </template>
 <script>
 export default {
-  async asyncData({ $axios, error }) {
+  async asyncData({ $axios, error, store }) {
     console.debug('asyncData')
-    const accountsUrl = encodeURI('/accounts')
-    let accounts = []
-    await $axios.$get(accountsUrl).then(result => {
-      accounts = result.accounts
-    }).catch(e => {
-      console.error(e);
-      error({ statusCode: 404, message: "Page not found" });
-    })
-
-    return {accounts}
+    const accounts = store.getters['accounts/getAccounts']
+    return { accounts }
   },
-  // created() {
-  //   this.fetchAccounts();
-  // },
   data() {
     return {
-      accounts: [],
       headers: [
         {
           text: 'Account Name',
@@ -43,20 +31,7 @@ export default {
         },
       ],
     }
-  },
-  // methods: {
-  //   fetchAccounts(){
-  //     console.log('fetchAccounts')
-  //     const accountsUrl = encodeURI('/accounts')
-  //     this.$axios.$get(accountsUrl).then(result => {
-  //       console.log(result)
-  //       this.accounts = result.accounts
-  //     }).catch(e => {
-  //       console.error(e);
-  //       // error({ statusCode: 404, message: "Page not found" });
-  //     })
-  //   }
-  // }
+  }
 }
 </script>
 <style lang="scss">
