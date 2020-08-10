@@ -1,11 +1,11 @@
 <template>
-  <v-bottom-navigation v-model="bottomNav">
+  <v-bottom-navigation v-model="bottomNav" fixed>
     <v-btn value="recent" to="/">
       <span>Summery</span>
         <v-icon>mdi-home-variant</v-icon>
     </v-btn>
     <v-btn value="favorites" to="/records">
-      <span>Records</span>
+      <span>Transactions</span>
       <v-icon>mdi-table-of-contents</v-icon>
     </v-btn>
   </v-bottom-navigation>
