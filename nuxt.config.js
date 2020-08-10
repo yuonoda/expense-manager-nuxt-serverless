@@ -40,6 +40,7 @@ module.exports = {
   */
   buildModules: [
     '@nuxtjs/vuetify',
+    '@nuxtjs/moment'
   ],
   /*
   ** Nuxt.js modules
@@ -75,6 +76,9 @@ module.exports = {
     */
     extend (config, ctx) {
     }
+  },
+  moment: {
+    defaultTimezone: 'Asia/Tokyo'
   },
   axios: {
     baseURL:

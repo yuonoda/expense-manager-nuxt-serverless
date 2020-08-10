@@ -6,7 +6,12 @@
       :items-per-page="5"
       class="elevation-1 home__table"
       hide-default-footer
-    ></v-data-table>
+      dense
+    >
+      <template v-slot:item.createdAt="{item}" >
+        {{ $moment(item.createdAt).format('MM/DD') }}
+      </template>
+    </v-data-table>
   </v-layout>
 </template>
 <script>
@@ -15,12 +20,23 @@ export default {
     const transactions = store.getters['transactions/getTransactions']
     return { transactions }
   },
+  watch: {
+    transactions() {
+      this.transactions = []
+    }
+  },
   data() {
     return {
       accounts: [],
       headers: [
         {
-          text: 'Transaction Nmae',
+          text: 'Date',
+          align: 'end',
+          sortable: false,
+          value: 'createdAt', //TODO paid_at
+        },
+        {
+          text: 'Name',
           align: 'end',
           sortable: false,
           value: 'transaction_name',
