@@ -12,8 +12,6 @@
     "test": "jest",
     "offline": "nuxt build && sls offline --noPrependStageInUrl ",
     "deploy": "nuxt build && sls deploy -s prod",
-    "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
-    "lintfix": "eslint --fix --ext .js,.vue --ignore-path .gitignore ."
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.11.0",
