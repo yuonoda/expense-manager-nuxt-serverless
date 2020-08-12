@@ -31,10 +31,18 @@ export const actions = {
       .catch((e) => console.error(e))
     commit('addTransaction', { transaction })
   },
-  updateTransaction({ commit }, { transaction }) {
+  updateTransaction({ commit }, { index, transaction }) {
     this.$axios
       .$put(encodeURI('/transactions/' + String(transaction.transaction_id)), transaction)
       .then((result) => console.log(result))
       .catch((e) => console.error(e))
+    commit('setTransaction', { index, transaction })
+  },
+  deleteTransaction({ commit }, { index, transaction }) {
+    this.$axios
+      .$delete(encodeURI('/transactions/' + String(transaction.transaction_id)))
+      .then((result) => console.log(result))
+      .catch((e) => console.error(e))
+    commit('deleteTransaction', index)
   },
 }

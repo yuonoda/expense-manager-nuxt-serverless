@@ -3,7 +3,7 @@
     <v-data-table
       :headers="headers"
       :items="transactions"
-      :items-per-page="5"
+      :items-per-page="100"
       class="elevation-1 home__table"
       hide-default-footer
       dense
@@ -162,7 +162,7 @@ export default {
     },
     deleteItem(item) {
       const index = this.transactions.indexOf(item)
-      this.$store.commit('transactions/deleteTransaction', index)
+      this.$store.dispatch('transactions/deleteTransaction', { index, transaction: item})
     },
     close() {
       this.dialog = false
@@ -174,11 +174,7 @@ export default {
     save() {
       if (this.editedIndex > -1) {
         // 更新
-        this.$store.dispatch('transactions/updateTransaction', {
-          index: this.editedIndex,
-          transaction: this.editedItem,
-        })
-        this.$store.commit('transactions/setTransaction', { index: this.editedIndex, transaction: this.editedItem })
+        this.$store.dispatch('transactions/updateTransaction', { index: this.editedIndex, transaction: this.editedItem })
       } else {
         // 追加
         this.$store.dispatch('transactions/createTransaction', { transaction: this.editedItem})
