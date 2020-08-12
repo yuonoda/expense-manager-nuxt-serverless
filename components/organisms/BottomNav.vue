@@ -2,7 +2,7 @@
   <v-bottom-navigation v-model="bottomNav" fixed>
     <v-btn value="recent" to="/">
       <span>Summery</span>
-        <v-icon>mdi-home-variant</v-icon>
+      <v-icon>mdi-home-variant</v-icon>
     </v-btn>
     <v-btn value="favorites" to="/records">
       <span>Transactions</span>
@@ -11,15 +11,15 @@
   </v-bottom-navigation>
 </template>
 <script>
-  // TODO アイコン画像のみクリッカブルになっている
-  export default {
-    data() {
-      return {
-        bottomNav: 'recent'
-      }
+// TODO アイコン画像のみクリッカブルになっている
+export default {
+  data() {
+    return {
+      bottomNav: 'recent',
     }
-  }
+  },
+}
 </script>
 <style scoped lang="scss">
-  // TODO Turn buttons into default color
+// TODO Turn buttons into default color
 </style>

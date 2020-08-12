@@ -9,8 +9,8 @@
   </v-app>
 </template>
 <script>
-  import BottomNav from '../components/organisms/BottomNav'
-  export default {
-    components: { BottomNav }
-  }
+import BottomNav from '../components/organisms/BottomNav'
+export default {
+  components: { BottomNav },
+}
 </script>
