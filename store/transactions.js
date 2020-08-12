@@ -31,8 +31,8 @@ export const actions = {
       .catch((e) => console.error(e))
     commit('addTransaction', { transaction })
   },
-  updateTransaction({ commit }, { index, transaction }) {
-    this.$axios
+  async updateTransaction({ commit }, { index, transaction }) {
+    await this.$axios
       .$put(encodeURI('/transactions/' + String(transaction.transaction_id)), transaction)
       .then((result) => console.log(result))
       .catch((e) => console.error(e))

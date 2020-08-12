@@ -7,6 +7,7 @@
       class="elevation-1 home__table"
       hide-default-footer
       dense
+      :sort-by="'transaction_time'"
     >
       <template v-slot:top>
         <v-toolbar flat>
@@ -37,7 +38,7 @@
                       >
                         <template v-slot:activator="{ on, attrs }">
                           <v-text-field
-                            :value="$moment(editedItem.createdAt).format('YYYY-MM-DD')"
+                            :value="formatDate(editedItem.transaction_time, 'YYYY-MM-DD')"
                             label="Date"
                             readonly
                             v-bind="attrs"
@@ -45,7 +46,7 @@
                           />
                         </template>
                         <v-date-picker
-                          :value="$moment(editedItem.createdAt).format('YYYY-MM-DD')"
+                          :value="formatDate(editedItem.transaction_time, 'YYYY-MM-DD')"
                           label="Date"
                           @input="datePickHandler"
                         />
@@ -81,8 +82,8 @@
           </v-dialog>
         </v-toolbar>
       </template>
-      <template v-slot:item.createdAt="{ item }">
-        {{ $moment(item.createdAt).format('MM/DD') }}
+      <template v-slot:item.transaction_time="{ item }">
+        {{ formatDate(item.transaction_time, 'MM/DD') }}
       </template>
       <template v-slot:item.actions="{ item }">
         <v-icon small class="mr-2" @click="editItem(item)">
@@ -113,7 +114,8 @@ export default {
       editedIndex: -1,
       editedItem: {},
       defaultItem: {
-        createdAt: this.$moment().format('YYYY-MM-DD'),
+        transaction_time:
+          this.$moment().format('YYYY-MM-DD'),
         transaction_name: '',
         transaction_amount: 0,
         is_paid: null,
@@ -124,7 +126,7 @@ export default {
           text: 'Date',
           align: 'end',
           sortable: true,
-          value: 'createdAt', //TODO paid_at
+          value: 'transaction_time', //TODO paid_at
         },
         {
           text: 'Name',
@@ -152,13 +154,19 @@ export default {
     },
   },
   methods: {
+    formatDate(date, format) {
+      if (!date) return null
+      return this.$moment(date).format(format)
+    },
     datePickHandler(event) {
-      this.editedItem.createdAt = this.$moment(event, 'YYYY-MM-DD').format()
+      this.editedItem.transaction_time = this.$moment(event, 'YYYY-MM-DD').format()
       this.isCalenderOpen = false
     },
     markAsPaid(item) {
-      item.is_paid = !item.is_paid
-      this.$store.commit('transactions/setTransaction', { index: this.editedIndex, transaction: item })
+      const editedItem = Object.assign({}, item)
+      editedItem.is_paid = !editedItem.is_paid
+      const index = this.transactions.indexOf(item)
+      this.$store.dispatch('transactions/updateTransaction', { index, transaction: editedItem })
     },
     deleteItem(item) {
       const index = this.transactions.indexOf(item)
