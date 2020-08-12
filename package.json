@@ -11,7 +11,7 @@
     "generate": "nuxt generate",
     "test": "jest",
     "offline": "nuxt build && sls offline --noPrependStageInUrl ",
-    "deploy": "nuxt build && sls deploy -s prod",
+    "deploy": "nuxt build && sls deploy -s prod"
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.11.0",

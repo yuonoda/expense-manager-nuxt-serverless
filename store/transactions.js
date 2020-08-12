@@ -12,17 +12,29 @@ export const mutations = {
   setTransactions(state, transactions) {
     state.transactions = transactions
   },
-  // TODO APIも更新
   setTransaction(state, { index, transaction }) {
-    if (index === null) {
-      state.transactions.splice(state.transactions.length, 1, transaction)
-    } else {
+    // TODO indexがない時
       state.transactions.splice(index, 1, transaction)
-    }
+  },
+  addTransaction(state, {transaction}) {
+    state.transactions.splice(state.transactions.length, 1, transaction)
   },
   deleteTransaction(state, index) {
     state.transactions.splice(index, 1)
-  }
+  },
 }
 
-export const actions = {}
+export const actions = {
+  createTransaction({ commit }, { transaction }) {
+    this.$axios.$post(encodeURI('/transactions'), transaction)
+      .then((result) => console.log(result))
+      .catch((e) => console.error(e))
+    commit('addTransaction', { transaction })
+  },
+  updateTransaction({ commit }, { transaction }) {
+    this.$axios
+      .$put(encodeURI('/transactions/' + String(transaction.transaction_id)), transaction)
+      .then((result) => console.log(result))
+      .catch((e) => console.error(e))
+  },
+}
