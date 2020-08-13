@@ -1,10 +1,10 @@
 <template>
-  <v-layout class="home">
+  <v-layout class="transactions">
     <v-data-table
       :headers="headers"
       :items="transactions"
       :items-per-page="100"
-      class="elevation-1 home__table"
+      class="elevation-1 transactions__table"
       hide-default-footer
       dense
       :sort-by="'transaction_time'"
@@ -102,7 +102,8 @@
 <script>
 export default {
   // TODO PULL TO RELOAD
-  // TODO ストア側でキャメルとスネークの変換をしたい
+  // TODO 編集ダイアログの別コンポーネント化
+  // TODO 日付のクリアボタン
   async asyncData({ store }) {
     const transactions = store.getters['transactions/getTransactions']
     return { transactions }
@@ -113,13 +114,6 @@ export default {
       accounts: [],
       editedIndex: -1,
       editedItem: {},
-      defaultItem: {
-        paidAt:
-          this.$moment().format('YYYY-MM-DD'),
-        transactionName: '',
-        transactionAmount: 0,
-        isPaid: null,
-      },
       dialog: false,
       headers: [
         {
@@ -175,7 +169,7 @@ export default {
     close() {
       this.dialog = false
       this.$nextTick(() => {
-        this.editedItem = Object.assign({}, this.defaultItem)
+        this.editedItem = Object.assign({}, {})
         this.editedIndex = -1
       })
     },
@@ -197,8 +191,9 @@ export default {
   },
 }
 </script>
-<style lang="scss">
-.home__table {
+<style lang="css" scoped>
+.transactions__table {
   width: 100%;
+  margin-bottom: 56px;
 }
 </style>

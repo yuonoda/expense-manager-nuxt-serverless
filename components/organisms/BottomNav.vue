@@ -4,7 +4,7 @@
       <span>Summery</span>
       <v-icon>mdi-home-variant</v-icon>
     </v-btn>
-    <v-btn value="favorites" to="/records">
+    <v-btn value="favorites" to="/transactions">
       <span>Transactions</span>
       <v-icon>mdi-table-of-contents</v-icon>
     </v-btn>
