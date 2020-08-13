@@ -1,5 +1,7 @@
 <template>
   <v-layout class="transactions">
+    <EditDialog :open="isDialogOpen" :editableProps="editableProps" :item="transactions[editedIndex]"
+                :new="editedIndex === -1" @edit="editHandler"/>
     <v-data-table
       :headers="headers"
       :items="transactions"
@@ -12,74 +14,11 @@
       <template v-slot:top>
         <v-toolbar flat>
           <v-toolbar-title>Transactions</v-toolbar-title>
-          <v-divider class="mx-4" inset vertical />
-          <v-spacer />
-          <v-dialog v-model="dialog" max-width="500px">
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn color="primary" dark class="mb-2" v-bind="attrs" v-on="on">
-                New Item
-              </v-btn>
-            </template>
-            <v-card>
-              <v-card-title>
-                <span class="headline">{{ formTitle }}</span>
-              </v-card-title>
-              <v-card-text>
-                <v-container>
-                  <v-row>
-                    <v-col cols="12" sm="6" md="4">
-                      <v-menu
-                        v-model="isCalenderOpen"
-                        :close-on-content-click="false"
-                        :nudge-right="40"
-                        transition="scale-transition"
-                        offset-y
-                        min-width="290px"
-                      >
-                        <template v-slot:activator="{ on, attrs }">
-                          <v-text-field
-                            :value="formatDate(editedItem.paidAt, 'YYYY-MM-DD')"
-                            label="Date"
-                            readonly
-                            v-bind="attrs"
-                            v-on="on"
-                          />
-                        </template>
-                        <v-date-picker
-                          :value="formatDate(editedItem.paidAt, 'YYYY-MM-DD')"
-                          label="Date"
-                          @input="datePickHandler"
-                        />
-                      </v-menu>
-                    </v-col>
-                    <v-col cols="12" sm="6" md="4">
-                      <v-text-field v-model="editedItem.transactionName" label="Name" />
-                    </v-col>
-                    <v-col cols="12" sm="6" md="4">
-                      <v-text-field
-                        :value="editedItem.transactionAmount"
-                        label="Amount"
-                        @input="editedItem.transactionAmount = Number($event)"
-                      />
-                    </v-col>
-                    <v-col cols="12" sm="6" md="4">
-                      <v-switch v-model="editedItem.isPaid" label="Paid" />
-                    </v-col>
-                  </v-row>
-                </v-container>
-              </v-card-text>
-
-              <v-card-actions>
-                <v-spacer />
-                <v-btn color="blue darken-1" text @click="close">
-                  Cancel
-                </v-btn>
-                <v-btn color="blue darken-1" text @click="save">
-                  Save
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
+          <v-divider class="mx-4" inset vertical/>
+          <v-spacer/>
+          <v-btn color="primary" dark class="mb-2" @click="editItem()">
+            New Item
+          </v-btn>
         </v-toolbar>
       </template>
       <template v-slot:item.paidAt="{ item }">
@@ -94,106 +33,116 @@
         </v-icon>
       </template>
       <template v-slot:item.isPaid="{ item }">
-        <v-switch :input-value="item.isPaid" @change="markAsPaid(item)" ></v-switch>
+        <v-switch :input-value="item.isPaid" @change="markAsPaid(item)"></v-switch>
       </template>
     </v-data-table>
   </v-layout>
 </template>
 <script>
-export default {
-  // TODO PULL TO RELOAD
-  // TODO 編集ダイアログの別コンポーネント化
-  // TODO 日付のクリアボタン
-  async asyncData({ store }) {
-    const transactions = store.getters['transactions/getTransactions']
-    return { transactions }
-  },
-  data() {
-    return {
-      isCalenderOpen: false,
-      accounts: [],
-      editedIndex: -1,
-      editedItem: {},
-      dialog: false,
-      headers: [
-        {
-          text: 'Date',
-          align: 'end',
-          sortable: true,
-          value: 'paidAt',
-        },
-        {
-          text: 'Name',
-          align: 'end',
-          sortable: false,
-          value: 'transactionName',
-        },
-        {
-          text: 'Amount',
-          sortable: false,
-          value: 'transactionAmount',
-        },
-        {
-          text: 'Paid',
-          sortable: true,
-          value: 'isPaid',
-        },
-        { text: 'Actions', value: 'actions', sortable: false },
-      ],
-    }
-  },
-  computed: {
-    formTitle() {
-      return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
+  import EditDialog from '../components/organisms/EditDialog'
+
+  export default {
+    // TODO PULL TO RELOAD
+    // TODO 日付のクリアボタン
+    components: { EditDialog },
+    async asyncData({ store }) {
+      const transactions = store.getters['transactions/getTransactions']
+      return { transactions }
     },
-  },
-  methods: {
-    formatDate(date, format) {
-      if (!date) return null
-      return this.$moment(date).format(format)
-    },
-    datePickHandler(event) {
-      this.editedItem.paidAt = this.$moment(event, 'YYYY-MM-DD').format()
-      this.isCalenderOpen = false
-    },
-    markAsPaid(item) {
-      const editedItem = Object.assign({}, item)
-      editedItem.isPaid = !editedItem.isPaid
-      const index = this.transactions.indexOf(item)
-      this.$store.dispatch('transactions/updateTransaction', { index, transaction: editedItem })
-    },
-    deleteItem(item) {
-      const index = this.transactions.indexOf(item)
-      this.$store.dispatch('transactions/deleteTransaction', { index, transaction: item})
-    },
-    close() {
-      this.dialog = false
-      this.$nextTick(() => {
-        this.editedItem = Object.assign({}, {})
-        this.editedIndex = -1
-      })
-    },
-    save() {
-      if (this.editedIndex > -1) {
-        // 更新
-        this.$store.dispatch('transactions/updateTransaction', { index: this.editedIndex, transaction: this.editedItem })
-      } else {
-        // 追加
-        this.$store.dispatch('transactions/createTransaction', { transaction: this.editedItem})
+    data() {
+      return {
+        editedIndex: null,
+        isDialogOpen: false,
+        headers: [
+          {
+            text: 'Date',
+            align: 'end',
+            sortable: true,
+            value: 'paidAt',
+          },
+          {
+            text: 'Name',
+            align: 'end',
+            sortable: false,
+            value: 'transactionName',
+          },
+          {
+            text: 'Amount',
+            sortable: false,
+            value: 'transactionAmount',
+          },
+          {
+            text: 'Paid',
+            sortable: true,
+            value: 'isPaid',
+          },
+          { text: 'Actions', value: 'actions', sortable: false },
+        ],
+        editableProps: [
+          {
+            label: 'Date',
+            key: 'paidAt',
+            type: 'date',
+          },
+          {
+            label: 'Name',
+            key: 'transactionName',
+            type: 'text',
+          }, {
+            label: 'Amount',
+            key: 'transactionAmount',
+            type: 'number',
+          }, {
+            label: 'Is paid',
+            key: 'isPaid',
+            type: 'boolean',
+          },
+        ],
       }
-      this.close()
     },
-    editItem(item) {
-      this.editedIndex = this.transactions.indexOf(item)
-      this.editedItem = Object.assign({}, item)
-      this.dialog = true
+    methods: {
+      formatDate(date, format) {
+        if (!date) return null
+        return this.$moment(date).format(format)
+      },
+      markAsPaid(item) {
+        const editedItem = Object.assign({}, item)
+        editedItem.isPaid = !editedItem.isPaid
+        const index = this.transactions.indexOf(item)
+        this.$store.dispatch('transactions/updateTransaction', { index, transaction: editedItem })
+      },
+      deleteItem(item) {
+        const index = this.transactions.indexOf(item)
+        this.$store.dispatch('transactions/deleteTransaction', { index, transaction: item })
+      },
+      editHandler(item) {
+        // 更新
+        if (this.editedIndex > -1 && item !== null) {
+          this.$store.dispatch('transactions/updateTransaction', {
+            index: this.editedIndex,
+            transaction: item,
+          })
+        }
+
+        // 追加
+        if (this.editedIndex === -1 && item !== null) {
+          this.$store.dispatch('transactions/createTransaction', { transaction: item })
+        }
+
+        // インデックスをリセットして、ダイアログを閉じる
+        this.editedIndex = null
+        this.isDialogOpen = false
+      },
+      editItem(item) {
+        this.editedIndex = this.transactions.indexOf(item)
+        this.isDialogOpen = true
+      },
     },
-  },
-}
+  }
 </script>
 <style lang="css" scoped>
-.transactions__table {
-  width: 100%;
-  margin-bottom: 56px;
-}
+  .transactions__table {
+    width: 100%;
+    margin-bottom: 56px;
+  }
 </style>

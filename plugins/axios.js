@@ -7,7 +7,6 @@ import https from 'https'
  * @returns {{}|*}
  */
 const convertSnakeCamel = (arg, isSnakeToCamel = true) => {
-  console.debug(arg)
   if (Array.isArray(arg) ) {
     return arg.map(element => convertSnakeCamel(element, isSnakeToCamel))
   } else if (typeof arg == 'object' && arg !== null) {

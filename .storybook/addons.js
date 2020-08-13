@@ -1,11 +1,7 @@
-module.exports = {
-  stories: ['../components/*.stories.js'],
-  addons: [
-    '@storybook/addon-actions',
-    '@storybook/addon-actions/register',
-    '@storybook/addon-links',
-    '@storybook/addon-viewport',
-    '@storybook/addon-notes',
-    '@storybook/addon-knobs',
-  ],
-};
+import '@storybook/addon-viewport/register'
+import '@storybook/addon-a11y/register'
+import '@storybook/addon-actions'
+import '@storybook/addon-actions/register'
+import '@storybook/addon-links/register'
+import '@storybook/addon-knobs/register'
+import '@storybook/addon-backgrounds/register'

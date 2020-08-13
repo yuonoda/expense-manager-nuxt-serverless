@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import { configure, addDecorator, addParameters } from '@storybook/vue'
 import Vuetify from "vuetify";
+import VueMoment from 'vue-moment'
 import { withKnobs } from '@storybook/addon-knobs'
 import { themes } from '@storybook/theming'
 import { action } from '@storybook/addon-actions'
@@ -16,7 +17,7 @@ addParameters({
 
 Vue.use(Vuex)
 Vue.use(Vuetify);
-
+Vue.use(VueMoment)
 
 addDecorator(() => ({
   vuetify: new Vuetify({
