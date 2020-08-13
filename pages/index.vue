@@ -14,9 +14,9 @@
           <v-spacer />
         </v-toolbar>
       </template>
-      <template v-slot:item.account_balance="{ item }">
-        {{ item.account_balance }}
-        <v-input v-model="item.account_balance" />
+      <template v-slot:item.accountBalance="{ item }">
+        {{ item.accountBalance }}
+        <v-input v-model="item.accountBalance" />
       </template>
       <template v-slot:item.actions="{ item }">
         <v-icon small class="mr-2" @click="editItem(item)">
@@ -28,7 +28,7 @@
 </template>
 <script>
 export default {
-  async asyncData({ $axios, error, store }) {
+  async asyncData({ store }) {
     const accounts = store.getters['accounts/getAccounts']
     return { accounts }
   },
@@ -39,9 +39,9 @@ export default {
           text: 'Account Name',
           align: 'end',
           sortable: false,
-          value: 'account_name',
+          value: 'accountName',
         },
-        { text: 'Balance', sortable: false, value: 'account_balance' },
+        { text: 'Balance', sortable: false, value: 'accountBalance' },
         { text: 'Actions', value: 'actions', sortable: false },
       ],
     }

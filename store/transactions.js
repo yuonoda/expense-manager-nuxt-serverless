@@ -25,22 +25,22 @@ export const mutations = {
 }
 
 export const actions = {
-  createTransaction({ commit }, { transaction }) {
-    this.$axios.$post(encodeURI('/transactions'), transaction)
+  async createTransaction({ commit }, { transaction }) {
+    await this.$axios.$post(encodeURI('/transactions'), transaction)
       .then((result) => console.log(result))
       .catch((e) => console.error(e))
     commit('addTransaction', { transaction })
   },
   async updateTransaction({ commit }, { index, transaction }) {
     await this.$axios
-      .$put(encodeURI('/transactions/' + String(transaction.transaction_id)), transaction)
+      .$put(encodeURI('/transactions/' + String(transaction.transactionId)), transaction)
       .then((result) => console.log(result))
       .catch((e) => console.error(e))
     commit('setTransaction', { index, transaction })
   },
-  deleteTransaction({ commit }, { index, transaction }) {
-    this.$axios
-      .$delete(encodeURI('/transactions/' + String(transaction.transaction_id)))
+  async deleteTransaction({ commit }, { index, transaction }) {
+    await this.$axios
+      .$delete(encodeURI('/transactions/' + String(transaction.transactionId)))
       .then((result) => console.log(result))
       .catch((e) => console.error(e))
     commit('deleteTransaction', index)

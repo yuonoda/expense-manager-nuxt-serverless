@@ -38,7 +38,7 @@
                       >
                         <template v-slot:activator="{ on, attrs }">
                           <v-text-field
-                            :value="formatDate(editedItem.transaction_time, 'YYYY-MM-DD')"
+                            :value="formatDate(editedItem.paidAt, 'YYYY-MM-DD')"
                             label="Date"
                             readonly
                             v-bind="attrs"
@@ -46,24 +46,24 @@
                           />
                         </template>
                         <v-date-picker
-                          :value="formatDate(editedItem.transaction_time, 'YYYY-MM-DD')"
+                          :value="formatDate(editedItem.paidAt, 'YYYY-MM-DD')"
                           label="Date"
                           @input="datePickHandler"
                         />
                       </v-menu>
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
-                      <v-text-field v-model="editedItem.transaction_name" label="Name" />
+                      <v-text-field v-model="editedItem.transactionName" label="Name" />
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
                       <v-text-field
-                        :value="editedItem.transaction_amount"
+                        :value="editedItem.transactionAmount"
                         label="Amount"
-                        @input="editedItem.transaction_amount = Number($event)"
+                        @input="editedItem.transactionAmount = Number($event)"
                       />
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
-                      <v-switch v-model="editedItem.is_paid" label="Paid" />
+                      <v-switch v-model="editedItem.isPaid" label="Paid" />
                     </v-col>
                   </v-row>
                 </v-container>
@@ -82,8 +82,8 @@
           </v-dialog>
         </v-toolbar>
       </template>
-      <template v-slot:item.transaction_time="{ item }">
-        {{ formatDate(item.transaction_time, 'MM/DD') }}
+      <template v-slot:item.paidAt="{ item }">
+        {{ formatDate(item.paidAt, 'MM/DD') }}
       </template>
       <template v-slot:item.actions="{ item }">
         <v-icon small class="mr-2" @click="editItem(item)">
@@ -93,8 +93,8 @@
           mdi-delete
         </v-icon>
       </template>
-      <template v-slot:item.is_paid="{ item }">
-        <v-switch :value="item.is_paid" @change="markAsPaid(item)" />
+      <template v-slot:item.isPaid="{ item }">
+        <v-switch :input-value="item.isPaid" @change="markAsPaid(item)" ></v-switch>
       </template>
     </v-data-table>
   </v-layout>
@@ -103,7 +103,7 @@
 export default {
   // TODO PULL TO RELOAD
   // TODO ストア側でキャメルとスネークの変換をしたい
-  async asyncData({ $axios, error, store }) {
+  async asyncData({ store }) {
     const transactions = store.getters['transactions/getTransactions']
     return { transactions }
   },
@@ -114,11 +114,11 @@ export default {
       editedIndex: -1,
       editedItem: {},
       defaultItem: {
-        transaction_time:
+        paidAt:
           this.$moment().format('YYYY-MM-DD'),
-        transaction_name: '',
-        transaction_amount: 0,
-        is_paid: null,
+        transactionName: '',
+        transactionAmount: 0,
+        isPaid: null,
       },
       dialog: false,
       headers: [
@@ -126,23 +126,23 @@ export default {
           text: 'Date',
           align: 'end',
           sortable: true,
-          value: 'transaction_time', //TODO paid_at
+          value: 'paidAt',
         },
         {
           text: 'Name',
           align: 'end',
           sortable: false,
-          value: 'transaction_name',
+          value: 'transactionName',
         },
         {
           text: 'Amount',
           sortable: false,
-          value: 'transaction_amount',
+          value: 'transactionAmount',
         },
         {
           text: 'Paid',
           sortable: true,
-          value: 'is_paid',
+          value: 'isPaid',
         },
         { text: 'Actions', value: 'actions', sortable: false },
       ],
@@ -159,12 +159,12 @@ export default {
       return this.$moment(date).format(format)
     },
     datePickHandler(event) {
-      this.editedItem.transaction_time = this.$moment(event, 'YYYY-MM-DD').format()
+      this.editedItem.paidAt = this.$moment(event, 'YYYY-MM-DD').format()
       this.isCalenderOpen = false
     },
     markAsPaid(item) {
       const editedItem = Object.assign({}, item)
-      editedItem.is_paid = !editedItem.is_paid
+      editedItem.isPaid = !editedItem.isPaid
       const index = this.transactions.indexOf(item)
       this.$store.dispatch('transactions/updateTransaction', { index, transaction: editedItem })
     },
