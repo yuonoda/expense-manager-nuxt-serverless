@@ -11,7 +11,8 @@
     "generate": "nuxt generate",
     "test": "jest",
     "offline": "nuxt build && sls offline --noPrependStageInUrl ",
-    "deploy": "nuxt build && sls deploy -s prod"
+    "deploy": "nuxt build && sls deploy -s prod",
+    "storybook": "start-storybook -p 6006"
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.11.0",
@@ -34,6 +35,13 @@
   },
   "devDependencies": {
     "@nuxtjs/vuetify": "^1.11.2",
+    "@storybook/addon-actions": "^6.0.5",
+    "@storybook/addon-knobs": "^6.0.5",
+    "@storybook/addon-links": "^6.0.5",
+    "@storybook/addon-notes": "^5.3.19",
+    "@storybook/addon-viewport": "^6.0.5",
+    "@storybook/addons": "^6.0.5",
+    "@storybook/vue": "^6.0.5",
     "@vue/test-utils": "^1.0.0-beta.27",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^24.1.0",
@@ -45,6 +53,8 @@
     "jest": "^24.1.0",
     "nodemon": "^1.18.9",
     "prettier": "^2.0.5",
+    "stylelint": "^13.6.1",
+    "stylelint-webpack-plugin": "^2.1.0",
     "vue-jest": "^4.0.0-0"
   }
 }

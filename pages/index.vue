@@ -15,8 +15,9 @@
         </v-toolbar>
       </template>
       <template v-slot:item.accountBalance="{ item }">
-        {{ item.accountBalance }}
-        <v-input v-model="item.accountBalance" />
+        <v-input v-model="item.accountBalance" >
+          {{ item.accountBalance}}
+        </v-input>
       </template>
       <template v-slot:item.actions="{ item }">
         <v-icon small class="mr-2" @click="editItem(item)">
