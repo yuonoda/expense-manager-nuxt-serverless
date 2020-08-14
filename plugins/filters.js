@@ -1,5 +1,6 @@
-import moment from 'moment'
+import Vue from 'vue'
 
-Vue.filter('formatDate', (value) => {
-  return moment(value).format('m/d')
+Vue.filter('formatCurrency', (value, currency = 'JPY', locale = 'ja-JP' ) => {
+  if (value === null) return ''
+  return new Intl.NumberFormat(locale, {style: 'currency', currency}).format(Number(value))
 })

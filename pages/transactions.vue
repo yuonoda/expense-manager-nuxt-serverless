@@ -32,6 +32,9 @@
           mdi-delete
         </v-icon>
       </template>
+      <template v-slot:item.transactionAmount="{ item }" >
+        {{ item.transactionAmount | formatCurrency }}
+      </template>
       <template v-slot:item.isPaid="{ item }">
         <v-switch :input-value="item.isPaid" @change="markAsPaid(item)"></v-switch>
       </template>
