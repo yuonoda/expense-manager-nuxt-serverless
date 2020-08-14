@@ -130,7 +130,7 @@
         }
 
         // インデックスをリセットして、ダイアログを閉じる
-        this.editedIndex = null
+        this.editedIndex = -1
         this.isDialogOpen = false
       },
       editItem(item) {

@@ -94,14 +94,17 @@
         this.isCalenderOpen = false
       },
       close() {
-        this.$emit('edit', this.editedItem)
+        this.$emit('edit', null)
         this.$nextTick(() => {
           this.editedItem = Object.assign({}, {})
         })
       },
       save() {
-        this.$emit('edit', this.editedItem)
-        this.close()
+        const isEdited = JSON.stringify(this.item) !== JSON.stringify(this.editedItem)
+        this.$emit('edit', isEdited? this.editedItem: null)
+        this.$nextTick(() => {
+          this.editedItem = Object.assign({}, {})
+        })
       },
     },
     computed: {
