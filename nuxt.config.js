@@ -1,10 +1,17 @@
-require('dotenv').config()
+// require('dotenv').config()
 const colors = require('vuetify/es5/util/colors').default
 
 module.exports = {
   telemetry: false,
   mode: 'universal',
   dev: process.env.NODE_ENV !== 'production',
+  server: {
+    port:  process.env.NODE_ENV == 'production'? null: 8000,
+  },
+  env: {
+    BASE_URL: process.env.BASE_URL,
+    BROWSER_BASE_URL: process.env.BROWSER_BASE_URL
+  },
   /*
    ** Headers of the page
    */
@@ -33,11 +40,12 @@ module.exports = {
   /*
    ** Nuxt.js dev-modules
    */
-  buildModules: ['@nuxtjs/vuetify', '@nuxtjs/moment'],
+  buildModules: [['@nuxtjs/dotenv', { filename:process.env.NODE_ENV == 'production'?'.env.production': '.env.development' }],'@nuxtjs/vuetify', '@nuxtjs/moment'],
   /*
    ** Nuxt.js modules
    */
-  modules: ['@nuxtjs/dotenv', '@nuxtjs/axios', '@nuxtjs/eslint-module'],
+  modules: [['@nuxtjs/dotenv', { filename:process.env.NODE_ENV == 'production'?'.env.production': '.env.development' }], '@nuxtjs/axios', '@nuxtjs/eslint-module'],
+  // modules: ['@nuxtjs/axios', '@nuxtjs/eslint-module'],
   /*
    ** vuetify module configuration
    ** https://github.com/nuxt-community/vuetify-module
@@ -66,25 +74,10 @@ module.exports = {
     /*
      ** You can extend webpack config here
      */
-    extend(config, ctx) {},
+    extend(config, ctx) {
+    },
   },
   moment: {
     defaultTimezone: 'Asia/Tokyo',
-  },
-  axios: {
-    baseURL:
-      process.env.SSR_API_PROTOCOL +
-      '://' +
-      process.env.SSR_API_DOMAIN +
-      ':' +
-      process.env.SSR_API_PORT +
-      process.env.SSR_API_BASE_PATH,
-    browserBaseURL:
-      process.env.CSR_API_PROTOCOL +
-      '://' +
-      process.env.CSR_API_DOMAIN +
-      ':' +
-      process.env.CSR_API_PORT +
-      process.env.CSR_API_BASE_PATH,
   },
 }

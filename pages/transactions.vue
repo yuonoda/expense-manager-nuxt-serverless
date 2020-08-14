@@ -51,7 +51,7 @@
     },
     data() {
       return {
-        editedIndex: null,
+        editedIndex: -1,
         isDialogOpen: false,
         headers: [
           {

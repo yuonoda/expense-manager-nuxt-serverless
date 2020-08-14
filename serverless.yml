@@ -21,7 +21,7 @@ plugins:
   - serverless-offline
   - serverless-apigw-binary
   - serverless-domain-manager
-  - serverless-dotenv-plugin
+#  - serverless-dotenv-plugin
 custom:
   apigwBinary:
     types:
