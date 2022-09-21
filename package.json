@@ -31,7 +31,7 @@
     "serverless-domain-manager": "^4.1.1",
     "serverless-dotenv-plugin": "^3.0.0",
     "serverless-offline": "^6.4.0",
-    "vuetify": "^2.3.2",
+    "vuetify": "^2.6.10",
     "yarn": "^1.22.4"
   },
   "devDependencies": {
